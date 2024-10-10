@@ -43,6 +43,7 @@ struct DetailView: View {
     }
 }
 
+
 #Preview {
     do {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
