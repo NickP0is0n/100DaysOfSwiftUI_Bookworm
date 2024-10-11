@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+extension String {
+    func hasContent() -> Bool {
+        return !self.trimmingCharacters(in: .whitespaces).isEmpty
+    }
+}
+
 struct AddBookView: View {
     @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) var dismiss
@@ -18,6 +24,18 @@ struct AddBookView: View {
     @State private var review = ""
     
     let genres = ["Fantasy", "Horror", "Kids", "Mystery", "Poetry", "Romance", "Thriller"]
+    
+    var informationCorrect: Bool {
+        if title.hasContent() &&
+            author.hasContent() &&
+            rating >= 1 && rating <= 5 &&
+            genres.contains(genre) &&
+            review.hasContent() {
+            return true
+        }
+        
+        return false
+    }
     
     var body: some View {
         NavigationStack {
@@ -43,8 +61,8 @@ struct AddBookView: View {
                         modelContext.insert(newBook)
                         dismiss()
                     }
-                    
                 }
+                .disabled(!informationCorrect)
             }
             .navigationTitle("Add book")
         }
